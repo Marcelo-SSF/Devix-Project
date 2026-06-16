@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devix — Sites, Sistemas e IA que geram resultado</title>
+  <meta name="description" content="Estúdio de tecnologia que desenvolve sites, sistemas com IA integrada, automações, agentes de atendimento e plataformas SaaS e CRM sob medida." />
+
+  <!-- Fonte da marca (Kanit)  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       CORES DA MARCA
+       ========================================================= */
+    :root {
+      --magenta: #f207a0;
+      --magenta-soft: #ff4dc0;
+      --purple: #5d3b8c;
+      --purple-light: #8b5cf6;
+      --cyan: #25b8d9;
+      --red: #f23838;
+      --orange: #f2921d;
+
+      --ink: #0a0810;
+      --ink-soft: #110d1a;
+
+      --bg: #09070e;
+      --fg: #f5f2fa;
+      --card: #110d1a;
+      --muted: #171221;
+      --muted-fg: #9b91ad;
+      --secondary: #1a1526;
+      --border: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.16);
+
+      --radius: 0.75rem;
+      --container: 80rem;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: "Kanit", system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--magenta); color: #fff; }
+
+    /* Scrollbar custom */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #09070e; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(var(--purple), var(--magenta));
+      border-radius: 999px;
+      border: 2px solid #09070e;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+    .mono { font-family: "Geist Mono", ui-monospace, monospace; }
+
+    /* ---------- Utilitários de marca ---------- */
+    .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 1.25rem; }
+    @media (min-width: 640px) { .container { padding: 0 2rem; } }
+
+    .text-gradient {
+      background: linear-gradient(100deg, var(--magenta-soft) 0%, var(--purple-light) 55%, var(--cyan) 110%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .text-gradient-warm {
+      background: linear-gradient(100deg, var(--orange), var(--magenta));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    .bg-grid {
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+    .bg-dots {
+      background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    .card-glass {
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.05), transparent 60%),
+        var(--card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    /* moldura com gradiente nas bordas */
+    .ring-gradient { position: relative; }
+    .ring-gradient::before {
+      content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+      background: linear-gradient(140deg, var(--magenta), transparent 40%, transparent 60%, var(--cyan));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      pointer-events: none; opacity: 0.7;
+    }
+
+    .btn-cta {
+      background: linear-gradient(100deg, var(--magenta), var(--purple-light));
+      color: #fff;
+      box-shadow: 0 10px 40px -10px rgba(242, 7, 160, 0.8);
+      transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s, filter .25s;
+    }
+    .btn-cta:hover {
+      transform: translateY(-2px); filter: brightness(1.08);
+      box-shadow: 0 18px 55px -12px rgba(242, 7, 160, 0.95);
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      border-radius: 999px; font-weight: 600; white-space: nowrap;
+    }
+    .btn-ghost {
+      border: 1px solid var(--border); background: rgba(17,13,26,0.4); color: var(--fg);
+      transition: background-color .25s;
+    }
+    .btn-ghost:hover { background: var(--card); }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: .5rem;
+      border: 1px solid var(--border); background: rgba(17,13,26,0.6);
+      border-radius: 999px; padding: .375rem 1rem;
+      font-size: .75rem; font-weight: 500; color: var(--muted-fg);
+      backdrop-filter: blur(8px);
+    }
+
+    .eyebrow {
+      font-family: "Geist Mono", monospace; font-size: .75rem;
+      text-transform: uppercase; letter-spacing: .25em; color: var(--muted-fg);
+    }
+
+    .icon { width: 1.25rem; height: 1.25rem; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .icon-sm { width: 1rem; height: 1rem; }
+    .icon-lg { width: 1.5rem; height: 1.5rem; }
+
+    /* ---------- Animação reveal on-scroll ---------- */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
+      will-change: opacity, transform;
+    }
+    .reveal.is-visible { opacity: 1; transform: none; }
+
+    /* máscara de fade nas pontas do carrossel */
+    .mask-fade-x {
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    }
+
+    /* ---------- Keyframes ---------- */
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+    @keyframes ping {
+      75%,100% { transform: scale(2); opacity: 0; }
+    }
+    @keyframes bounce-dot {
+      0%,80%,100% { transform: translateY(0); opacity: .5; }
+      40% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+    .site-header {
+      position: fixed; inset: 0 0 auto 0; z-index: 50;
+      border-bottom: 1px solid transparent;
+      transition: background-color .3s, border-color .3s, backdrop-filter .3s;
+    }
+    .site-header.scrolled {
+      border-bottom-color: var(--border);
+      background: rgba(9,7,14,0.8);
+      backdrop-filter: blur(16px);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 4rem; max-width: var(--container); margin: 0 auto; padding: 0 1.25rem;
+    }
+    @media (min-width: 640px) { .header-inner { padding: 0 2rem; } }
+    @media (min-width: 1024px) { .header-inner { height: 4.5rem; } }
+
+    /* Logo em texto (mockup — sem PNG) */
+    .brand { display: inline-flex; align-items: center; gap: .55rem; }
+    .brand-sym {
+      font-family: "Geist Mono", monospace; font-weight: 700; font-size: 1.1rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2.1rem; height: 2.1rem; border-radius: .6rem;
+      background: linear-gradient(140deg, rgba(242,7,160,.18), rgba(37,184,217,.18));
+      border: 1px solid var(--border-strong);
+      color: var(--magenta-soft);
+    }
+    .brand-word {
+      font-weight: 800; font-size: 1.5rem; letter-spacing: -.02em;
+      background: linear-gradient(100deg, var(--magenta-soft), var(--purple-light) 60%, var(--cyan));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    .nav-desktop { display: none; align-items: center; gap: 2rem; }
+    .nav-desktop a { font-size: .875rem; font-weight: 500; color: var(--muted-fg); transition: color .2s; }
+    .nav-desktop a:hover { color: var(--fg); }
+    .header-cta { display: none; }
+    @media (min-width: 1024px) {
+      .nav-desktop { display: flex; }
+      .header-cta { display: inline-flex; padding: .625rem 1.25rem; font-size: .875rem; }
+    }
+
+    .menu-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2.5rem; height: 2.5rem; border-radius: .6rem;
+      border: 1px solid var(--border); background: rgba(17,13,26,0.6); color: var(--fg);
+    }
+    @media (min-width: 1024px) { .menu-btn { display: none; } }
+
+    /* Menu mobile */
+    .mobile-menu {
+      position: fixed; inset: 4rem 0 0 0; z-index: 40;
+      background: rgba(9,7,14,0.97); backdrop-filter: blur(16px);
+      transition: opacity .3s, visibility .3s;
+      opacity: 0; visibility: hidden;
+    }
+    .mobile-menu.open { opacity: 1; visibility: visible; }
+    .mobile-menu nav { display: flex; flex-direction: column; padding: 1.5rem; }
+    .mobile-menu nav a {
+      padding: 1rem 0; font-size: 1.5rem; font-weight: 600; color: rgba(245,242,250,0.9);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .mobile-menu .btn-cta { margin-top: 1.5rem; padding: 1rem; font-size: 1rem; }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+    .hero { position: relative; isolation: isolate; overflow: hidden; padding: 7rem 0 5rem; }
+    @media (min-width: 1024px) { .hero { padding: 10rem 0 7rem; } }
+
+    .hero-bg {
+      position: absolute; inset: 0; z-index: -30;
+      background:
+        radial-gradient(60% 50% at 80% 10%, rgba(242,7,160,.18), transparent 60%),
+        radial-gradient(55% 45% at 15% 80%, rgba(37,184,217,.14), transparent 60%),
+        var(--bg);
+    }
+    .hero-bg-grid { position: absolute; inset: 0; z-index: -29; opacity: .5; }
+    .hero-fade { position: absolute; inset: auto 0 0 0; height: 10rem; z-index: -10;
+      background: linear-gradient(to bottom, transparent, var(--bg)); }
+
+    .hero-grid {
+      display: grid; gap: 3.5rem; align-items: center;
+      max-width: var(--container); margin: 0 auto; padding: 0 1.25rem;
+    }
+    @media (min-width: 640px) { .hero-grid { padding: 0 2rem; } }
+    @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1.05fr 0.95fr; } }
+
+    .hero-copy { max-width: 42rem; }
+    .hero h1 {
+      margin-top: 1.5rem; font-weight: 800; line-height: 1.04; letter-spacing: -.02em;
+      font-size: 2.6rem;
+    }
+    @media (min-width: 640px) { .hero h1 { font-size: 3.75rem; } }
+    @media (min-width: 1024px) { .hero h1 { font-size: 4.2rem; } }
+
+    .hero p.lead {
+      margin-top: 1.5rem; max-width: 36rem; font-size: 1rem; line-height: 1.7; color: var(--muted-fg);
+    }
+    @media (min-width: 640px) { .hero p.lead { font-size: 1.125rem; } }
+    .hero p.lead strong { color: var(--fg); font-weight: 600; }
+
+    .hero-actions { margin-top: 2.25rem; display: flex; flex-direction: column; gap: .75rem; }
+    @media (min-width: 640px) { .hero-actions { flex-direction: row; align-items: center; } }
+    .hero-actions .btn { padding: .875rem 1.75rem; font-size: 1rem; }
+
+    .hero-checks {
+      margin-top: 2.25rem; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem;
+      font-size: .875rem; color: var(--muted-fg);
+    }
+    .hero-checks li { display: inline-flex; align-items: center; gap: .5rem; }
+    .hero-checks .icon { color: var(--cyan); }
+
+    /* Chat mock (agente IA) */
+    .chat-wrap { position: relative; width: 100%; max-width: 28rem; margin: 0 auto; }
+    @media (min-width: 1024px) { .chat-wrap { max-width: none; } }
+    .chat-glow {
+      position: absolute; inset: -1.5rem; z-index: -10; border-radius: 2rem; opacity: .7;
+      filter: blur(40px);
+      background: linear-gradient(140deg, rgba(242,7,160,.4), transparent 60%, rgba(37,184,217,.4));
+    }
+    .chat-symbol {
+      position: absolute; top: -2.25rem; left: -1.5rem; z-index: 10;
+      font-family: "Geist Mono", monospace; font-weight: 700; font-size: 1.5rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 84px; height: 84px; border-radius: 1.2rem;
+      background: linear-gradient(140deg, var(--magenta), var(--purple));
+      color: #fff; box-shadow: 0 10px 30px rgba(242,7,160,.45);
+      animation: float 7s ease-in-out infinite;
+    }
+    .chat-card { border-radius: 1.6rem; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,.6); }
+    .chat-head { display: flex; align-items: center; gap: .75rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
+    .chat-dot { position: relative; display: flex; width: .625rem; height: .625rem; }
+    .chat-dot .ping { position: absolute; inset: 0; border-radius: 999px; background: rgba(37,184,217,.7); animation: ping 1.5s cubic-bezier(0,0,.2,1) infinite; }
+    .chat-dot .core { position: relative; width: .625rem; height: .625rem; border-radius: 999px; background: var(--cyan); }
+    .chat-head .name { font-size: .875rem; font-weight: 600; }
+    .chat-head .sub { font-family: "Geist Mono", monospace; font-size: .7rem; color: var(--muted-fg); }
+    .chat-badge { margin-left: auto; border-radius: 999px; background: rgba(242,7,160,.15); padding: .25rem .625rem; font-size: .65rem; font-weight: 600; color: var(--magenta-soft); }
+    .chat-body { display: flex; flex-direction: column; gap: .75rem; padding: 1.5rem 1.25rem; }
+    .bubble { max-width: 78%; padding: .625rem 1rem; font-size: .875rem; border-radius: 1rem; }
+    .bubble.user { align-self: flex-end; background: var(--secondary); color: var(--fg); border-bottom-right-radius: .375rem; }
+    .bubble.bot { align-self: flex-start; background: linear-gradient(135deg, var(--magenta), var(--purple-light)); color: #fff; border-bottom-left-radius: .375rem; box-shadow: 0 10px 25px -10px rgba(242,7,160,.5); }
+    .bubble.typing { align-self: flex-start; display: inline-flex; gap: .25rem; background: var(--secondary); padding: .75rem 1rem; }
+    .bubble.typing span { width: 6px; height: 6px; border-radius: 999px; background: var(--muted-fg); animation: bounce-dot 1.4s infinite; }
+    .bubble.typing span:nth-child(2) { animation-delay: .15s; }
+    .bubble.typing span:nth-child(3) { animation-delay: .3s; }
+    .chat-foot { padding: .75rem 1.25rem; border-top: 1px solid var(--border); }
+    .chat-foot p { font-family: "Geist Mono", monospace; font-size: .7rem; color: var(--muted-fg); }
+
+    /* =========================================================
+       CARROSSEL DE LOGOS (placeholders — mockup)
+       ========================================================= */
+    .clients { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(17,13,26,0.4); padding: 2.5rem 0; }
+    .clients .label { margin-bottom: 1.75rem; text-align: center; }
+    .marquee { overflow: hidden; }
+    .marquee-track { display: flex; width: max-content; align-items: center; gap: 1.25rem; animation: marquee 38s linear infinite; }
+    .clients:hover .marquee-track { animation-play-state: paused; }
+    .logo-chip {
+      flex-shrink: 0; height: 72px; display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+      padding: 0 2rem; border-radius: 1rem; background: #fff; color: #6b7280;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.05);
+      font-weight: 600; font-size: .95rem; white-space: nowrap;
+      transition: transform .3s;
+    }
+    .logo-chip:hover { transform: translateY(-2px); }
+    .logo-chip .ph-mark {
+      width: 1.6rem; height: 1.6rem; border-radius: .4rem;
+      background: linear-gradient(140deg, var(--magenta), var(--cyan));
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-family: "Geist Mono", monospace; font-size: .75rem; font-weight: 700;
+    }
+
+    /* =========================================================
+       SEÇÕES GENÉRICAS
+       ========================================================= */
+    section.block { position: relative; padding: 6rem 0; }
+    @media (min-width: 640px) { section.block { padding: 8rem 0; } }
+    .band { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(17,13,26,0.4); }
+
+    .section-head { max-width: 42rem; }
+    .section-head.center { margin: 0 auto; text-align: center; }
+    .section-head h2 {
+      margin-top: 1rem; font-weight: 800; line-height: 1.15; letter-spacing: -.02em; font-size: 1.875rem;
+    }
+    @media (min-width: 640px) { .section-head h2 { font-size: 3rem; } }
+    .section-head p { margin-top: 1.25rem; font-size: 1rem; line-height: 1.7; color: var(--muted-fg); }
+    @media (min-width: 640px) { .section-head p { font-size: 1.125rem; } }
+
+    /* =========================================================
+       SEÇÃO IA
+       ========================================================= */
+    .ia-glow {
+      position: absolute; left: 50%; top: 0; transform: translateX(-50%); z-index: -10;
+      width: 40rem; height: 40rem; border-radius: 999px; opacity: .25; filter: blur(140px);
+      background: radial-gradient(circle, var(--purple-light), transparent 60%);
+      pointer-events: none;
+    }
+    .pill-ia {
+      display: inline-flex; align-items: center; gap: .5rem; border-radius: 999px;
+      border: 1px solid rgba(242,7,160,.3); background: rgba(242,7,160,.1);
+      padding: .375rem 1rem; font-family: "Geist Mono", monospace;
+      font-size: .75rem; text-transform: uppercase; letter-spacing: .2em; color: var(--magenta-soft);
+    }
+    .ia-grid { margin-top: 4rem; display: grid; gap: 1.5rem; }
+    @media (min-width: 1024px) { .ia-grid { grid-template-columns: 1fr 1fr; } }
+    .leaks { display: grid; gap: 1rem; }
+    @media (min-width: 640px) { .leaks { grid-template-columns: 1fr 1fr; } }
+    .leak { border-radius: 1rem; padding: 1.5rem; transition: border-color .25s; }
+    .leak:hover { border-color: rgba(242,7,160,.4); }
+    .leak .icon { color: var(--magenta-soft); width: 1.75rem; height: 1.75rem; }
+    .leak h3 { margin-top: 1rem; font-size: 1.125rem; font-weight: 700; }
+    .leak p { margin-top: .5rem; font-size: .875rem; line-height: 1.6; color: var(--muted-fg); }
+
+    .ia-card { border-radius: 1rem; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; }
+    @media (min-width: 640px) { .ia-card { padding: 2.5rem; } }
+    .ia-card .top-label { font-family: "Geist Mono", monospace; font-size: .75rem; text-transform: uppercase; letter-spacing: .2em; color: var(--cyan); }
+    .ia-card h3 { margin-top: .75rem; font-size: 1.5rem; font-weight: 700; line-height: 1.3; }
+    @media (min-width: 640px) { .ia-card h3 { font-size: 1.875rem; } }
+    .stats { margin: 2rem 0; display: grid; gap: 1.25rem; }
+    @media (min-width: 640px) { .stats { grid-template-columns: repeat(3, 1fr); } }
+    .stats .v { font-weight: 800; font-size: 1.875rem; }
+    @media (min-width: 640px) { .stats .v { font-size: 2.25rem; } }
+    .stats .l { margin-top: .25rem; font-size: .75rem; line-height: 1.4; color: var(--muted-fg); }
+    .ia-link { display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; }
+    .ia-link span { border-bottom: 2px solid var(--magenta); padding-bottom: .125rem; }
+    .ia-link:hover .icon { transform: translateX(4px); }
+    .ia-link .icon { transition: transform .2s; }
+
+    /* =========================================================
+       SERVIÇOS
+       ========================================================= */
+    .services-grid { margin-top: 3.5rem; display: grid; gap: 1.25rem; }
+    @media (min-width: 768px) { .services-grid { grid-template-columns: 1fr 1fr; } }
+    .service {
+      position: relative; overflow: hidden; display: flex; flex-direction: column;
+      border-radius: 1.5rem; padding: 2rem; transition: transform .3s;
+    }
+    @media (min-width: 640px) { .service { padding: 2.25rem; } }
+    .service:not(.featured):hover { transform: translateY(-4px); }
+    .service-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 3.25rem; height: 3.25rem; border-radius: 1rem;
+    }
+    .service h3 { margin-top: 1.5rem; font-size: 1.25rem; font-weight: 700; }
+    @media (min-width: 640px) { .service h3 { font-size: 1.5rem; } }
+    .service p { margin-top: .75rem; font-size: .875rem; line-height: 1.6; color: var(--muted-fg); }
+    @media (min-width: 640px) { .service p { font-size: 1rem; } }
+    .service-tags { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+    .service-tags li {
+      border: 1px solid var(--border); background: rgba(9,7,14,0.4); border-radius: 999px;
+      padding: .25rem .75rem; font-size: .75rem; font-weight: 500; color: var(--muted-fg);
+    }
+    .service-badge {
+      position: absolute; top: 1.5rem; right: 1.5rem; border-radius: 999px;
+      background: rgba(242,7,160,.15); padding: .25rem .75rem;
+      font-size: .65rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--magenta-soft);
+    }
+
+    .services-cta {
+      margin-top: 3rem; border: 1px solid var(--border); background: rgba(17,13,26,0.5);
+      border-radius: 1.5rem; padding: 2rem 1.5rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center;
+    }
+    @media (min-width: 640px) { .services-cta { flex-direction: row; justify-content: space-between; text-align: left; } }
+    .services-cta p { font-size: 1.125rem; font-weight: 600; }
+    .services-cta p span { color: var(--muted-fg); }
+    .services-cta .btn { padding: .75rem 1.5rem; font-size: .875rem; flex-shrink: 0; }
+
+    /* =========================================================
+       PROCESSO
+       ========================================================= */
+    .steps { position: relative; margin-top: 4rem; display: grid; gap: 2rem; }
+    @media (min-width: 640px) { .steps { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+    .step-top { display: flex; align-items: center; gap: 1rem; }
+    .step-ic {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 3rem; height: 3rem; border-radius: 1rem;
+      border: 1px solid var(--border); background: var(--card); color: var(--magenta-soft);
+    }
+    .step-n { font-weight: 800; font-size: 2.25rem; color: var(--border-strong); }
+    .step h3 { margin-top: 1.25rem; font-size: 1.25rem; font-weight: 700; }
+    .step p { margin-top: .5rem; font-size: .875rem; line-height: 1.6; color: var(--muted-fg); }
+
+    /* =========================================================
+       DEPOIMENTOS
+       ========================================================= */
+    .rating { margin-top: 1.25rem; display: flex; align-items: center; justify-content: center; gap: .5rem; font-size: .875rem; color: var(--muted-fg); }
+    .stars { display: inline-flex; }
+    .star { width: 1rem; height: 1rem; fill: var(--orange); color: var(--orange); }
+    .star-sm { width: .75rem; height: .75rem; }
+    .tgrid { margin-top: 3.5rem; display: grid; gap: 1.25rem; }
+    @media (min-width: 640px) { .tgrid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .tgrid { grid-template-columns: repeat(3, 1fr); } }
+    .testi { display: flex; flex-direction: column; border-radius: 1rem; padding: 1.75rem; }
+    .testi .quote { width: 1.75rem; height: 1.75rem; color: rgba(242,7,160,.4); }
+    .testi p { margin-top: 1rem; flex: 1; font-size: .875rem; line-height: 1.6; color: rgba(245,242,250,.9); }
+    .testi-foot { margin-top: 1.5rem; display: flex; align-items: center; gap: .75rem; }
+    .avatar {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2.5rem; height: 2.5rem; border-radius: 999px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--magenta), var(--purple-light));
+      color: #fff; font-size: .875rem; font-weight: 700;
+    }
+    .testi-foot .nm { font-size: .875rem; font-weight: 600; line-height: 1.2; }
+
+    /* =========================================================
+       FAQ (accordion)
+       ========================================================= */
+    .faq-wrap { max-width: 48rem; margin: 0 auto; }
+    .faq-list { margin-top: 3rem; }
+    .faq-item { border-radius: 1rem; margin-bottom: .75rem; padding: 0 1.25rem; }
+    .faq-q {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1.25rem 0; text-align: left; font-size: 1rem; font-weight: 600; color: var(--fg);
+    }
+    .faq-q .chev { transition: transform .3s; color: var(--muted-fg); }
+    .faq-item.open .faq-q .chev { transform: rotate(180deg); }
+    .faq-a { overflow: hidden; max-height: 0; transition: max-height .35s ease; }
+    .faq-a-inner { padding: 0 0 1.25rem; font-size: .875rem; line-height: 1.7; color: var(--muted-fg); }
+
+    /* =========================================================
+       CTA FINAL
+       ========================================================= */
+    .cta-section { padding: 6rem 1.25rem; }
+    @media (min-width: 640px) { .cta-section { padding: 8rem 2rem; } }
+    .cta-box {
+      position: relative; overflow: hidden; max-width: 72rem; margin: 0 auto;
+      border: 1px solid var(--border); border-radius: 2.5rem; padding: 4rem 1.5rem; text-align: center;
+    }
+    @media (min-width: 640px) { .cta-box { padding: 6rem 3rem; } }
+    .cta-bg {
+      position: absolute; inset: 0; z-index: -10;
+      background:
+        radial-gradient(120% 120% at 0% 0%, rgba(242,7,160,.28), transparent 55%),
+        radial-gradient(120% 120% at 100% 100%, rgba(37,184,217,.26), transparent 55%),
+        var(--ink-soft);
+    }
+    .cta-dots { position: absolute; inset: 0; z-index: -10; opacity: .2; }
+    .cta-sym {
+      margin: 0 auto; font-family: "Geist Mono", monospace; font-weight: 700; font-size: 1.25rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 64px; height: 64px; border-radius: 1rem;
+      background: linear-gradient(140deg, var(--magenta), var(--purple)); color: #fff;
+      animation: float 7s ease-in-out infinite;
+    }
+    .cta-box h2 { margin: 2rem auto 0; max-width: 48rem; font-weight: 800; line-height: 1.1; letter-spacing: -.02em; font-size: 1.875rem; }
+    @media (min-width: 640px) { .cta-box h2 { font-size: 3rem; } }
+    @media (min-width: 1024px) { .cta-box h2 { font-size: 3.75rem; } }
+    .cta-box p { margin: 1.25rem auto 0; max-width: 36rem; font-size: 1rem; color: var(--muted-fg); }
+    @media (min-width: 640px) { .cta-box p { font-size: 1.125rem; } }
+    .cta-actions { margin-top: 2.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .75rem; }
+    @media (min-width: 640px) { .cta-actions { flex-direction: row; } }
+    .cta-actions .btn { padding: 1rem 2rem; font-size: 1rem; width: 100%; }
+    @media (min-width: 640px) { .cta-actions .btn { width: auto; } }
+    .cta-mail { margin-top: 2rem; display: inline-flex; align-items: center; gap: .5rem; font-size: .875rem; color: var(--muted-fg); transition: color .2s; }
+    .cta-mail:hover { color: var(--fg); }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    .footer { border-top: 1px solid var(--border); background: rgba(17,13,26,0.6); }
+    .footer-inner { max-width: var(--container); margin: 0 auto; padding: 4rem 1.25rem; }
+    @media (min-width: 640px) { .footer-inner { padding: 4rem 2rem; } }
+    .footer-top { display: grid; gap: 3rem; }
+    @media (min-width: 1024px) { .footer-top { grid-template-columns: 1.4fr 1fr 1fr; } }
+    .footer-about { max-width: 24rem; }
+    .footer-about p { margin-top: 1.25rem; font-size: .875rem; line-height: 1.7; color: var(--muted-fg); }
+    .socials { margin-top: 1.5rem; display: flex; gap: .75rem; }
+    .social {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2.5rem; height: 2.5rem; border-radius: 999px;
+      border: 1px solid var(--border); color: var(--muted-fg); transition: color .2s, border-color .2s;
+    }
+    .social:hover { color: var(--magenta-soft); border-color: var(--magenta); }
+    .footer h3 { font-family: "Geist Mono", monospace; font-size: .75rem; text-transform: uppercase; letter-spacing: .2em; color: var(--muted-fg); }
+    .footer-col ul { margin-top: 1.25rem; display: flex; flex-direction: column; gap: .75rem; }
+    .footer-col a, .footer-col li { font-size: .875rem; color: rgba(245,242,250,.8); transition: color .2s; }
+    .footer-col a:hover { color: var(--magenta-soft); }
+    .footer-phone { margin-top: 1.5rem; font-size: .875rem; color: var(--muted-fg); }
+    .footer-bottom {
+      margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--border);
+      display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center;
+    }
+    @media (min-width: 640px) { .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; } }
+    .footer-bottom p { font-size: .75rem; color: var(--muted-fg); }
+    .footer-bottom .mono span { color: var(--magenta-soft); }
+
+    /* =========================================================
+       BOTÃO FLUTUANTE WHATSAPP
+       ========================================================= */
+    .wa-float {
+      position: fixed; bottom: 1.25rem; right: 1rem; z-index: 60;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 3.5rem; height: 3.5rem; border-radius: 999px;
+      background: #25d366; color: #fff;
+      box-shadow: 0 12px 30px -8px rgba(37,211,102,.7);
+      transition: transform .25s;
+    }
+    .wa-float:hover { transform: scale(1.08); }
+    .wa-float svg { width: 1.8rem; height: 1.8rem; fill: currentColor; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =========================================================
+       HEADER
+       ========================================================= -->
+  <header class="site-header" id="header">
+    <div class="header-inner">
+      <a href="#top" class="brand" aria-label="Devix — início">
+        <span class="brand-sym">&lt;/&gt;</span>
+        <span class="brand-word">devix</span>
+      </a>
+
+      <nav class="nav-desktop">
+        <a href="#servicos">Serviços</a>
+        <a href="#ia">IA</a>
+        <a href="#processo">Processo</a>
+        <a href="#contato">Contato</a>
+      </nav>
+
+      <a class="btn btn-cta header-cta" data-wa>
+        <svg class="icon-sm icon" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+        Falar no WhatsApp
+      </a>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">
+        <svg class="icon" id="menuIcon" viewBox="0 0 24 24"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Menu mobile -->
+    <div class="mobile-menu" id="mobileMenu">
+      <nav>
+        <a href="#servicos">Serviços</a>
+        <a href="#ia">IA</a>
+        <a href="#processo">Processo</a>
+        <a href="#contato">Contato</a>
+        <a class="btn btn-cta" data-wa>
+          <svg class="icon" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+          Falar no WhatsApp
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- =========================================================
+         HERO
+         ========================================================= -->
+    <section class="hero" id="top">
+      <div class="hero-bg"></div>
+      <div class="hero-bg-grid bg-grid"></div>
+      <div class="hero-fade"></div>
+
+      <div class="hero-grid">
+        <!-- Copy -->
+        <div class="hero-copy reveal is-visible">
+          <span class="pill">
+            <svg class="icon-sm icon" style="color:var(--magenta)" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/></svg>
+            Sites, Sistemas e Inteligência Artificial
+          </span>
+
+          <h1>Sua presença no digital com <span class="text-gradient">IA trabalhando</span> por você.</h1>
+
+          <p class="lead">
+            A Devix desenvolve sites, sistemas, automações e agentes com inteligência
+            artificial — além de plataformas SaaS e CRM sob medida. Tecnologia que vira
+            <strong>resultado</strong>.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-cta" data-wa>
+              <svg class="icon" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+              Falar com a Devix
+            </a>
+            <a class="btn btn-ghost" href="#servicos">
+              Ver o que fazemos
+              <svg class="icon-sm icon" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+            </a>
+          </div>
+
+          <ul class="hero-checks">
+            <li><svg class="icon-sm icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Atendimento nacional</li>
+            <li><svg class="icon-sm icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Tecnologia atual</li>
+            <li><svg class="icon-sm icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Foco em resultado</li>
+          </ul>
+        </div>
+
+        <!-- Chat mock -->
+        <div class="chat-wrap reveal is-visible">
+          <div class="chat-glow"></div>
+          <div class="chat-symbol">&lt;/&gt;</div>
+          <div class="chat-card ring-gradient card-glass">
+            <div class="chat-head">
+              <span class="chat-dot"><span class="ping"></span><span class="core"></span></span>
+              <div>
+                <p class="name">Agente Devix · IA</p>
+                <p class="sub">respondendo em segundos · 24/7</p>
+              </div>
+              <span class="chat-badge">online</span>
+            </div>
+            <div class="chat-body">
+              <p class="bubble user">Oi! Vocês ainda têm horário essa semana?</p>
+              <p class="bubble bot">Oi 👋 Temos sim! Quer que eu já reserve pra você?</p>
+              <p class="bubble user">Quero! Pode ser quinta de manhã?</p>
+              <p class="bubble bot">Agendado ✅ Te enviei a confirmação. Mais algo?</p>
+              <div class="bubble typing"><span></span><span></span><span></span></div>
+            </div>
+            <div class="chat-foot">
+              <p>@devix_web · devixweb.com.br</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CARROSSEL DE LOGOS (placeholders)
+         ========================================================= -->
+    <section class="clients" aria-label="Clientes atendidos">
+      <div class="container">
+        <p class="eyebrow label">Marcas que já contam com a Devix</p>
+      </div>
+      <div class="marquee mask-fade-x">
+        <div class="marquee-track" id="marqueeTrack">
+          <span class="logo-chip"><span class="ph-mark">&lt;/&gt;</span> Sua logo aqui</span>
+          <span class="logo-chip"><span class="ph-mark">★</span> Logo do cliente</span>
+          <span class="logo-chip"><span class="ph-mark">◆</span> Sua marca aqui</span>
+          <span class="logo-chip"><span class="ph-mark">●</span> Sua logo aqui</span>
+          <span class="logo-chip"><span class="ph-mark">▲</span> Logo do cliente</span>
+          <span class="logo-chip"><span class="ph-mark">✦</span> Sua marca aqui</span>
+          <span class="logo-chip"><span class="ph-mark">⬡</span> Sua logo aqui</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SEÇÃO IA
+         ========================================================= -->
+    <section class="block" id="ia">
+      <div class="ia-glow"></div>
+      <div class="container">
+        <div class="section-head center reveal">
+          <span class="pill-ia">Inteligência Artificial</span>
+          <h2>Quem ainda não usa IA está <span class="text-gradient-warm">deixando dinheiro na mesa.</span></h2>
+          <p>
+            A inteligência artificial deixou de ser tendência pra virar vantagem competitiva.
+            Enquanto umas empresas automatizam atendimento, vendas e processos, outras seguem
+            perdendo tempo e cliente. A diferença entre as duas aparece no caixa no fim do mês.
+          </p>
+        </div>
+
+        <div class="ia-grid">
+          <div class="leaks">
+            <div class="leak card-glass reveal">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h9"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
+              <h3>Lead que esfria</h3>
+              <p>Quem não responde na hora perde a venda. Boa parte dos contatos vai pro concorrente que respondeu primeiro.</p>
+            </div>
+            <div class="leak card-glass reveal">
+              <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <h3>Atendimento limitado ao horário</h3>
+              <p>Fora do expediente, ninguém atende. O cliente decide à noite, no fim de semana — e a sua empresa está offline.</p>
+            </div>
+            <div class="leak card-glass reveal">
+              <svg class="icon" viewBox="0 0 24 24"><path d="m2 9 3-3 3 3"/><path d="M13 18H7a2 2 0 0 1-2-2V6"/><path d="m22 15-3 3-3-3"/><path d="M11 6h6a2 2 0 0 1 2 2v10"/></svg>
+              <h3>Time preso no operacional</h3>
+              <p>Horas todo dia em tarefas repetitivas que uma automação faria em segundos, sem erro e sem cansaço.</p>
+            </div>
+            <div class="leak card-glass reveal">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M16 17h6v-6"/><path d="m22 17-8.5-8.5-5 5L2 7"/></svg>
+              <h3>Decisão no achismo</h3>
+              <p>Sem dados organizados, o investimento vira aposta. A IA transforma informação em decisão.</p>
+            </div>
+          </div>
+
+          <div class="ia-card ring-gradient card-glass reveal">
+            <div>
+              <p class="top-label">O outro lado da moeda</p>
+              <h3>Com a IA certa, a sua empresa joga em outro nível.</h3>
+            </div>
+            <div class="stats">
+              <div><p class="v text-gradient">24/7</p><p class="l">atendimento sem parar, mesmo enquanto você dorme</p></div>
+              <div><p class="v text-gradient">1ª hora</p><p class="l">a janela de ouro pra converter um lead novo</p></div>
+              <div><p class="v text-gradient">+horas</p><p class="l">livres por semana com o operacional no automático</p></div>
+            </div>
+            <a class="ia-link" data-wa data-wa-msg="Quero entender como a IA pode ajudar minha empresa. Pode me explicar?">
+              <span>Quero IA no meu negócio</span>
+              <svg class="icon-sm icon" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SERVIÇOS
+         ========================================================= -->
+    <section class="block" id="servicos">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">O que fazemos</span>
+          <h2>Quatro frentes, <span class="text-gradient">um só objetivo:</span> seu resultado.</h2>
+          <p>Da primeira linha de código à automação com IA, a Devix cobre a jornada de tecnologia inteira do seu negócio.</p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service card-glass reveal">
+            <span class="service-icon" style="background:rgba(139,92,246,.16);color:var(--purple-light)">
+              <svg class="icon-lg icon" viewBox="0 0 24 24"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            </span>
+            <h3>Sites e Sistemas</h3>
+            <p>Sites institucionais, landing pages de alta conversão, e-commerce e sistemas web sob medida. Construídos pra performar e pra durar.</p>
+            <ul class="service-tags">
+              <li>Landing pages</li><li>Sites institucionais</li><li>E-commerce</li><li>Sistemas web sob medida</li>
+            </ul>
+          </article>
+
+          <article class="service featured ring-gradient card-glass reveal">
+            <span class="service-badge">Mais procurado</span>
+            <span class="service-icon" style="background:rgba(242,7,160,.16);color:var(--magenta)">
+              <svg class="icon-lg icon" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
+            </span>
+            <h3>Sistemas com IA integrada</h3>
+            <p>Inteligência artificial integrada ao seu sistema nos pontos que geram resultado: atendimento automático, qualificação de leads e tarefas que rodam sozinhas. A IA entra onde faz diferença — sem reinventar o que já funciona.</p>
+            <ul class="service-tags">
+              <li>Agentes de atendimento</li><li>Qualificação automática</li><li>Automação de tarefas</li><li>IA integrada ao sistema</li>
+            </ul>
+          </article>
+
+          <article class="service card-glass reveal">
+            <span class="service-icon" style="background:rgba(37,184,217,.16);color:var(--cyan)">
+              <svg class="icon-lg icon" viewBox="0 0 24 24"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
+            </span>
+            <h3>Automações com IA</h3>
+            <p>Fluxos inteligentes que eliminam o trabalho repetitivo, conectam suas ferramentas e fazem a operação rodar sozinha.</p>
+            <ul class="service-tags">
+              <li>Integração de ferramentas</li><li>Follow-up automático</li><li>Relatórios sem esforço</li><li>Processos no automático</li>
+            </ul>
+          </article>
+
+          <article class="service card-glass reveal">
+            <span class="service-icon" style="background:rgba(242,146,29,.16);color:var(--orange)">
+              <svg class="icon-lg icon" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+            </span>
+            <h3>SaaS e CRM</h3>
+            <p>Plataformas SaaS sob medida e CRMs que organizam o comercial, centralizam o cliente e colocam o relacionamento no automático.</p>
+            <ul class="service-tags">
+              <li>Plataformas SaaS</li><li>CRM sob medida</li><li>Gestão de clientes</li><li>Painéis e relatórios</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="services-cta reveal">
+          <p>Não sabe por onde começar? <span>A gente te orienta.</span></p>
+          <a class="btn btn-cta" data-wa>Pedir um diagnóstico gratuito</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PROCESSO
+         ========================================================= -->
+    <section class="block band" id="processo">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Como funciona</span>
+          <h2>Um processo <span class="text-gradient">claro</span> do briefing ao resultado.</h2>
+        </div>
+
+        <div class="steps">
+          <div class="step reveal">
+            <div class="step-top">
+              <span class="step-ic"><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+              <span class="step-n">01</span>
+            </div>
+            <h3>Diagnóstico</h3>
+            <p>Entendemos seu negócio, seu cliente e onde está o gargalo que segura o crescimento.</p>
+          </div>
+          <div class="step reveal">
+            <div class="step-top">
+              <span class="step-ic"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></svg></span>
+              <span class="step-n">02</span>
+            </div>
+            <h3>Estratégia &amp; Desenho</h3>
+            <p>Desenhamos a solução certa — site, sistema, IA, automação ou SaaS — com escopo claro e objetivo definido.</p>
+          </div>
+          <div class="step reveal">
+            <div class="step-top">
+              <span class="step-ic"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>
+              <span class="step-n">03</span>
+            </div>
+            <h3>Desenvolvimento</h3>
+            <p>Construímos com tecnologia atual, acompanhamento de perto e entregas que você consegue ver acontecer.</p>
+          </div>
+          <div class="step reveal">
+            <div class="step-top">
+              <span class="step-ic"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg></span>
+              <span class="step-n">04</span>
+            </div>
+            <h3>Lançamento &amp; Otimização</h3>
+            <p>Colocamos no ar, medimos os resultados e ajustamos pra extrair o máximo de cada real investido.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         DEPOIMENTOS
+         ========================================================= -->
+    <section class="block band">
+      <div class="container">
+        <div class="section-head center reveal">
+          <span class="eyebrow">Depoimentos</span>
+          <h2>Quem confiou, <span class="text-gradient">recomenda.</span></h2>
+          <div class="rating">
+            <span class="stars" aria-hidden="true">
+              <svg class="star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </span>
+            Avaliações reais de clientes Devix
+          </div>
+        </div>
+
+        <div class="tgrid" id="testimonials"></div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         FAQ
+         ========================================================= -->
+    <section class="block">
+      <div class="container">
+        <div class="faq-wrap">
+          <div class="section-head center reveal">
+            <span class="eyebrow">Perguntas frequentes</span>
+            <h2>Ainda com <span class="text-gradient">dúvida?</span></h2>
+          </div>
+          <div class="faq-list reveal" id="faqList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CTA FINAL
+         ========================================================= -->
+    <section class="cta-section" id="contato">
+      <div class="cta-box reveal">
+        <div class="cta-bg"></div>
+        <div class="cta-dots bg-dots"></div>
+        <div class="cta-sym">&lt;/&gt;</div>
+        <h2>Bora tirar a sua presença <span class="text-gradient">do papel?</span></h2>
+        <p>Conta pra gente o seu desafio. O primeiro papo é um diagnóstico gratuito — sem enrolação e sem compromisso.</p>
+        <div class="cta-actions">
+          <a class="btn btn-cta" data-wa>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+            Falar no WhatsApp
+          </a>
+          <a class="btn btn-ghost" href="https://www.instagram.com/devix_web" target="_blank" rel="noopener noreferrer">
+            <svg class="icon" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            @devix_web
+          </a>
+        </div>
+        <a class="cta-mail" href="mailto:contato@devixweb.com.br">
+          <svg class="icon-sm icon" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          contato@devixweb.com.br
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-about">
+          <a href="#top" class="brand">
+            <span class="brand-sym">&lt;/&gt;</span>
+            <span class="brand-word">devix</span>
+          </a>
+          <p>Sua presença no digital. Desenvolvemos sites, sistemas e soluções com inteligência artificial para colocar a sua marca onde o cliente está.</p>
+          <div class="socials">
+            <a class="social" data-wa aria-label="WhatsApp"><svg class="icon" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></a>
+            <a class="social" href="https://www.instagram.com/devix_web" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="icon" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+            <a class="social" href="mailto:contato@devixweb.com.br" aria-label="E-mail"><svg class="icon" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h3>Navegação</h3>
+          <ul>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#ia">Inteligência Artificial</a></li>
+            <li><a href="#processo">Processo</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>Serviços</h3>
+          <ul>
+            <li>Sites e Sistemas</li>
+            <li>Sistemas com IA integrada</li>
+            <li>Automações com IA</li>
+            <li>SaaS e CRM</li>
+          </ul>
+          <p class="footer-phone">(27) 99798-6566</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Devix. Todos os direitos reservados.</p>
+        <p class="mono">Desenvolvido por Marcelo Sobreira · <span>&lt;/&gt;</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botão flutuante WhatsApp -->
+  <a class="wa-float" data-wa aria-label="Falar no WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.737-.979 1.24.612zm5.392-13.85c-.124-.003-.273-.003-.422-.003-.149 0-.39.056-.595.279-.205.223-.78.762-.78 1.86s.799 2.157.91 2.306c.111.149 1.572 2.401 3.81 3.366.531.23.945.367 1.268.469.532.169 1.016.145 1.4.088.427-.064 1.314-.537 1.499-1.056.185-.52.185-.964.13-1.057-.056-.093-.205-.149-.428-.26z"/></svg>
+  </a>
+
+  <script>
+    /* =========================================================
+       DADOS DA MARCA + GERAÇÃO DOS LINKS DE WHATSAPP
+       ========================================================= */
+    var WHATSAPP_NUMBER = "5527997986566";
+    var DEFAULT_WA_MSG = "Olá, Devix! Vim pelo site e quero tirar minha presença do papel. Pode me ajudar?";
+
+    function waLink(msg) {
+      return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg || DEFAULT_WA_MSG);
+    }
+
+    // Aplica o href em todos os elementos marcados com [data-wa]
+    document.querySelectorAll("[data-wa]").forEach(function (el) {
+      el.setAttribute("href", waLink(el.getAttribute("data-wa-msg")));
+      el.setAttribute("target", "_blank");
+      el.setAttribute("rel", "noopener noreferrer");
+    });
+
+    /* =========================================================
+       HEADER — muda de estilo ao rolar
+       ========================================================= */
+    var header = document.getElementById("header");
+    function onScroll() {
+      if (window.scrollY > 24) header.classList.add("scrolled");
+      else header.classList.remove("scrolled");
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    /* =========================================================
+       MENU MOBILE
+       ========================================================= */
+    var menuBtn = document.getElementById("menuBtn");
+    var mobileMenu = document.getElementById("mobileMenu");
+    var menuIcon = document.getElementById("menuIcon");
+    var ICON_MENU = '<line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/>';
+    var ICON_X = '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>';
+
+    function toggleMenu(force) {
+      var open = force !== undefined ? force : !mobileMenu.classList.contains("open");
+      mobileMenu.classList.toggle("open", open);
+      menuBtn.setAttribute("aria-expanded", String(open));
+      menuIcon.innerHTML = open ? ICON_X : ICON_MENU;
+      document.body.style.overflow = open ? "hidden" : "";
+    }
+    menuBtn.addEventListener("click", function () { toggleMenu(); });
+    // Fecha o menu ao clicar em qualquer link de dentro dele
+    mobileMenu.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () { toggleMenu(false); });
+    });
+
+    /* =========================================================
+       CARROSSEL — duplica os chips pra loop perfeito
+       ========================================================= */
+    var track = document.getElementById("marqueeTrack");
+    track.innerHTML += track.innerHTML; // duplica o conteúdo (a animação anda -50%)
+
+    /* =========================================================
+       DEPOIMENTOS (renderizados via JS)
+       ========================================================= */
+    var testimonials = [
+      { name: "Raphael do Amaral Vaz", text: "Excelente empresa, serviço com qualidade, segurança e eficiência. Não te deixa na mão em momento nenhum." },
+      { name: "Ana Clara da Silva", text: "Tive uma excelente experiência com a Devix. A qualidade do trabalho é impressionante, recomendo demais." },
+      { name: "Geovane Loureiro", text: "Excelente atendimento e execução! Meu site é sempre bem elogiado por quem visita." },
+      { name: "Erisvan Sales", text: "Além do super atendimento, meu site ficou pronto em tempo recorde. Profissionalismo de ponta a ponta." },
+      { name: "Raquel", text: "Trabalho de alta qualidade e que sempre entrega resultados impressionantes. Virei cliente fiel." },
+      { name: "Simplificando Contabilidade", text: "Ótimo atendimento e um serviço de excelência. Recomendamos a Devix sem pestanejar." }
+    ];
+
+    function initials(name) {
+      return name.split(" ").filter(Boolean).slice(0, 2).map(function (p) { return p[0]; }).join("").toUpperCase();
+    }
+
+    var STAR = '<svg class="star star-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+    var QUOTE = '<svg class="quote" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>';
+
+    var tContainer = document.getElementById("testimonials");
+    testimonials.forEach(function (t) {
+      var el = document.createElement("article");
+      el.className = "testi card-glass reveal";
+      el.innerHTML =
+        QUOTE +
+        '<p>' + t.text + '</p>' +
+        '<div class="testi-foot">' +
+          '<span class="avatar">' + initials(t.name) + '</span>' +
+          '<div><p class="nm">' + t.name + '</p><span class="stars">' + STAR + STAR + STAR + STAR + STAR + '</span></div>' +
+        '</div>';
+      tContainer.appendChild(el);
+    });
+
+    /* =========================================================
+       FAQ (accordion — abre um por vez)
+       ========================================================= */
+    var faqs = [
+      { q: "Quanto tempo leva pra ficar pronto?", a: "Depende do escopo. Uma landing page sai em poucos dias; sites maiores, sistemas e agentes de IA levam algumas semanas. No diagnóstico inicial a gente te passa um prazo realista e combinado." },
+      { q: "Vocês atendem fora de Guarapari e do Espírito Santo?", a: "Sim. O atendimento da Devix é nacional — todo o processo acontece de forma remota, com acompanhamento de perto do começo ao fim." },
+      { q: "O que é um agente de atendimento com IA?", a: "É um atendente virtual que conversa com seus clientes no WhatsApp e no site, responde dúvidas na hora, qualifica o lead e até agenda — 24 horas por dia, sem depender de alguém disponível para responder." },
+      { q: "Vocês criam sistemas e SaaS sob medida?", a: "Sim. Vamos do site simples ao sistema completo: plataformas SaaS, CRMs e ferramentas internas desenhadas exatamente para o jeito que a sua empresa trabalha — com inteligência artificial onde fizer diferença." },
+      { q: "Como eu começo?", a: "É só chamar no WhatsApp. A primeira conversa é um diagnóstico gratuito: a gente entende seu momento e te mostra o melhor caminho — sem compromisso." }
+    ];
+
+    var CHEV = '<svg class="icon icon-sm chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>';
+    var faqList = document.getElementById("faqList");
+
+    faqs.forEach(function (f) {
+      var item = document.createElement("div");
+      item.className = "faq-item card-glass";
+      item.innerHTML =
+        '<button class="faq-q" type="button">' + f.q + CHEV + '</button>' +
+        '<div class="faq-a"><div class="faq-a-inner">' + f.a + '</div></div>';
+      faqList.appendChild(item);
+
+      var btn = item.querySelector(".faq-q");
+      var panel = item.querySelector(".faq-a");
+
+      btn.addEventListener("click", function () {
+        var isOpen = item.classList.contains("open");
+        // fecha todos
+        faqList.querySelectorAll(".faq-item").forEach(function (other) {
+          other.classList.remove("open");
+          other.querySelector(".faq-a").style.maxHeight = null;
+        });
+        // abre o atual se estava fechado
+        if (!isOpen) {
+          item.classList.add("open");
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+      });
+    });
+
+    /* =========================================================
+       REVEAL ON-SCROLL (IntersectionObserver)
+       ========================================================= */
+    var revealEls = document.querySelectorAll(".reveal:not(.is-visible)");
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+      revealEls.forEach(function (el) { io.observe(el); });
+    } else {
+      // fallback: mostra tudo
+      revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+    }
+  </script>
+</body>
+</html>
